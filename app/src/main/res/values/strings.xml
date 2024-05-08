@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Komarova</string>
+    <string name="tickets">Авиабилеты</string>
+    <string name="hotel">Отели</string>
+    <string name="shorts">Короче</string>
+    <string name="sings">Подписки</string>
+    <string name="profile">Профиль</string>
+    <string name="where_from">Откуда</string>
+    <string name="your_first_time">Ваш первый раз</string>
+    <string name="show_every_place">Показать все места</string>
+    <string name="music_from">Музыкально отлететь</string>
+    <string name="where">Куда</string>
+    <string name="find_chip_ticket">Поиск дешевых авиабилетов</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
