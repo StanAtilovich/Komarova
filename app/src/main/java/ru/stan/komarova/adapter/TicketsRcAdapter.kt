@@ -16,11 +16,20 @@ class TicketsRcAdapter : ListAdapter<Offer, TicketsRcAdapter.Holder>(Comparator(
         private val binding = LentaItemBinding.bind(view)
 
         fun bind(offer: Offer) = with(binding) {
+
             tvName.text = offer.title
             tvTown.text = offer.town
             val priceString = offer.price.toString()
             val price = priceString.replace(Regex("[^\\d]"), "").toInt()
             tvPrice.text = "от $price ₽"
+
+            when (offer.id) {
+                1 -> myImageeView.setImageResource(R.drawable.img1)
+                2 -> myImageeView.setImageResource(R.drawable.img2)
+                3 -> myImageeView.setImageResource(R.drawable.img3)
+
+                else -> myImageeView.setImageResource(R.drawable.default_image)
+            }
         }
     }
 
