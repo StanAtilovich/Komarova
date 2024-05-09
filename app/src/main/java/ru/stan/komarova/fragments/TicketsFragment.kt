@@ -104,6 +104,6 @@ class TicketsFragment : Fragment() {
 
     companion object {
         @JvmStatic
-        fun newInstance() = ru.stan.komarova.fragments.TicketsFragment()
+        fun newInstance() = TicketsFragment()
     }
 }
