@@ -4,9 +4,10 @@ import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import ru.stan.komarova.databinding.DialogBinding
+import ru.stan.komarova.viewModel.MyViewModel
 
 object DialogManager {
-    fun showSaveDialog(context: Context, listener: Listener) {
+    fun showSaveDialog(context: Context, listener: Listener, viewModel: MyViewModel) {
         val builder = AlertDialog.Builder(context)
         val binding = DialogBinding.inflate(LayoutInflater.from(context), null, false)
         builder.setView(binding.root)
@@ -31,6 +32,7 @@ object DialogManager {
                 dialog.dismiss()
             }
             Istambul.setOnClickListener {
+                viewModel.messageForFragment.value = "Стамбул"
                 listener.onClick()
                 dialog.dismiss()
             }
@@ -47,6 +49,8 @@ object DialogManager {
 
 
     }
+
+
     interface Listener {
         fun onClick()
     }

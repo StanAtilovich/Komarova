@@ -15,6 +15,10 @@ import ru.stan.komarova.TicketsApi
 class MyViewModel : ViewModel() {
     val offerLiveData = MutableLiveData<List<Offer>>()
     var editTextValue: String = ""
+
+    val messageForFragment: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
     fun fetchOffersFromApi() {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://run.mocky.io/")

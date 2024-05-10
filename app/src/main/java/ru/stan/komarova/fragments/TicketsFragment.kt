@@ -105,15 +105,18 @@ class TicketsFragment : Fragment() {
 
     private fun openDialog() {
         val context = context ?: return
+        val myViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
+
         DialogManager.showSaveDialog(context, object : DialogManager.Listener {
             override fun onClick() {
                 Toast.makeText(context, "пошло", Toast.LENGTH_SHORT).show()
                 isDialogOpen = false
             }
-        })
+        }, myViewModel)
     }
 
-    private fun setupTextListener(editText: EditText, clearImageView: ImageView) {
+
+                private fun setupTextListener(editText: EditText, clearImageView: ImageView) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -137,8 +140,11 @@ class TicketsFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        viewModel.messageForFragment.observe(viewLifecycleOwner) { message ->
+            binding.editWhere.setText(message)
+        }
     }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         viewModel.editTextValue = binding.editWhereFrom.text.toString()
