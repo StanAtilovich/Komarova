@@ -3,7 +3,11 @@ package ru.stan.komarova.util
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import ru.stan.komarova.R
 import ru.stan.komarova.databinding.DialogBinding
+import ru.stan.komarova.fragments.HotelsFragment
 import ru.stan.komarova.viewModel.MyViewModel
 
 object DialogManager {
@@ -18,6 +22,7 @@ object DialogManager {
             hardWay.setOnClickListener {
                 listener.onClick()
                 dialog.dismiss()
+                openFragment(context, HotelsFragment.newInstance())
             }
             whereGo.setOnClickListener {
                 viewModel.messageForFragment.value = "Куда угодно"
@@ -27,10 +32,12 @@ object DialogManager {
             holidays.setOnClickListener {
                 listener.onClick()
                 dialog.dismiss()
+                openFragment(context, HotelsFragment.newInstance())
             }
             hotTickets.setOnClickListener {
                 listener.onClick()
                 dialog.dismiss()
+                openFragment(context, HotelsFragment.newInstance())
             }
             Istambul.setOnClickListener {
                 viewModel.messageForFragment.value = "Стамбул"
@@ -53,6 +60,14 @@ object DialogManager {
 
     }
 
+    private fun openFragment(context: Context, fragment: Fragment){
+        if (context is AppCompatActivity) {
+            context.supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.placeHolder, fragment)
+                .commit()
+        }
+    }
 
     interface Listener {
         fun onClick()
