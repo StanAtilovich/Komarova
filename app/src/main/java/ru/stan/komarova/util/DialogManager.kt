@@ -10,6 +10,7 @@ object DialogManager {
         val builder = AlertDialog.Builder(context)
         val binding = DialogBinding.inflate(LayoutInflater.from(context), null, false)
         builder.setView(binding.root)
+        builder.setCancelable(false) // Запретить закрытие диалога при нажатии вне его содержимого
         val dialog = builder.create()
         binding.apply {
 
