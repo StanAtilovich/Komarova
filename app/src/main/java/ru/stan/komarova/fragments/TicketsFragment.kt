@@ -8,18 +8,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.stan.komarova.adapter.TicketsRcAdapter
 import ru.stan.komarova.databinding.FragmentTicketsBinding
+import ru.stan.komarova.util.DialogManager
 import ru.stan.komarova.viewModel.MyViewModel
 
+@Suppress("UNREACHABLE_CODE")
 class TicketsFragment : Fragment() {
     private lateinit var binding: FragmentTicketsBinding
     private lateinit var adapter: TicketsRcAdapter
     private lateinit var viewModel: MyViewModel
+    private var isDialogOpen = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,14 +40,43 @@ class TicketsFragment : Fragment() {
         val inputFilter = viewModel.getInputFilter()
         binding.editWhere.filters = arrayOf(inputFilter)
 
+
+        // Открываем диалог при изменении текста в editWhere
+        binding.editWhere.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (!isDialogOpen) {
+                    openDialog()
+                    isDialogOpen = true
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+        // Открываем диалог при изменении текста в editWhere
+        binding.editWhereFrom.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (!isDialogOpen) {
+                    openDialog()
+                    isDialogOpen = true
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
+
         viewModel.offerLiveData.observe(viewLifecycleOwner, Observer { offers ->
             adapter.submitList(offers)
         })
+
         viewModel.fetchOffersFromApi()
 
         binding.editWhereFrom.setText(viewModel.editTextValue)
-
-
         setupListeners()
         return binding.root
     }
@@ -55,6 +88,7 @@ class TicketsFragment : Fragment() {
 
             clearText.setOnClickListener {
                 editWhere.text.clear()
+
             }
             clearText1.setOnClickListener {
                 editWhereFrom.text.clear()
@@ -68,6 +102,17 @@ class TicketsFragment : Fragment() {
         }
     }
 
+    private fun openDialog() {
+        val context = context ?: return
+        DialogManager.showSaveDialog(context, object : DialogManager.Listener {
+            override fun onClick() {
+                Toast.makeText(context, "пошло", Toast.LENGTH_SHORT).show()
+                isDialogOpen = false
+            }
+        })
+    }
+
+
 
     private fun setupTextListener(editText: EditText, clearImageView: ImageView) {
         editText.addTextChangedListener(object : TextWatcher {
@@ -78,6 +123,7 @@ class TicketsFragment : Fragment() {
                 clearImageView.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
         })
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -92,11 +138,9 @@ class TicketsFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 imageView.visibility = View.VISIBLE
             }
-
             override fun afterTextChanged(s: Editable?) {}
         })
     }
-
     override fun onSaveInstanceState(outState: Bundle) {
         viewModel.editTextValue = binding.editWhereFrom.text.toString()
         super.onSaveInstanceState(outState)
