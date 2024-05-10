@@ -24,6 +24,7 @@ class TicketsFragment : Fragment() {
     private lateinit var adapter: TicketsRcAdapter
     private lateinit var viewModel: MyViewModel
     private var isDialogOpen = false
+    private var textChangedByUser = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,35 +41,10 @@ class TicketsFragment : Fragment() {
         val inputFilter = viewModel.getInputFilter()
         binding.editWhere.filters = arrayOf(inputFilter)
 
+        // setText() вместо addTextChangedListener() для избегания инициализации при старте
+        binding.editWhereFrom.setText(viewModel.editTextValue)
 
-        // Открываем диалог при изменении текста в editWhere
-        binding.editWhere.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (!isDialogOpen) {
-                    openDialog()
-                    isDialogOpen = true
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
-        // Открываем диалог при изменении текста в editWhere
-        binding.editWhereFrom.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (!isDialogOpen) {
-                    openDialog()
-                    isDialogOpen = true
-                }
-            }
-
-            override fun afterTextChanged(s: Editable?) {}
-        })
-
+        setupListeners()
 
         viewModel.offerLiveData.observe(viewLifecycleOwner, Observer { offers ->
             adapter.submitList(offers)
@@ -76,11 +52,8 @@ class TicketsFragment : Fragment() {
 
         viewModel.fetchOffersFromApi()
 
-        binding.editWhereFrom.setText(viewModel.editTextValue)
-        setupListeners()
         return binding.root
     }
-
 
     private fun setupListeners() {
         with(binding) {
@@ -88,7 +61,6 @@ class TicketsFragment : Fragment() {
 
             clearText.setOnClickListener {
                 editWhere.text.clear()
-
             }
             clearText1.setOnClickListener {
                 editWhereFrom.text.clear()
@@ -98,8 +70,37 @@ class TicketsFragment : Fragment() {
             setupTextListener(editWhereFrom, clearText1)
             addPlaneImageTextWatcher(editWhere, imageView2)
             addPlaneImageTextWatcher(editWhereFrom, plane)
-
         }
+
+        binding.editWhere.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (textChangedByUser && !isDialogOpen) {
+                    openDialog()
+                    isDialogOpen = true
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                textChangedByUser = s.toString().isNotEmpty()
+            }
+        })
+
+//        binding.editWhereFrom.addTextChangedListener(object : TextWatcher {
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+//
+//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+//                if (textChangedByUser && !isDialogOpen) {
+//                    openDialog()
+//                    isDialogOpen = true
+//                }
+//            }
+//
+//            override fun afterTextChanged(s: Editable?) {
+//                textChangedByUser = s.toString().isNotEmpty()
+//            }
+//        })
     }
 
     private fun openDialog() {
@@ -112,8 +113,6 @@ class TicketsFragment : Fragment() {
         })
     }
 
-
-
     private fun setupTextListener(editText: EditText, clearImageView: ImageView) {
         editText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -123,12 +122,6 @@ class TicketsFragment : Fragment() {
                 clearImageView.visibility = if (s.isNullOrEmpty()) View.GONE else View.VISIBLE
             }
         })
-
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 
     private fun addPlaneImageTextWatcher(editText: EditText, imageView: ImageView) {
@@ -136,11 +129,17 @@ class TicketsFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                imageView.visibility = View.VISIBLE
+                imageView.visibility = if (s.isNullOrEmpty()) View.VISIBLE else View.GONE
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     override fun onSaveInstanceState(outState: Bundle) {
         viewModel.editTextValue = binding.editWhereFrom.text.toString()
         super.onSaveInstanceState(outState)
