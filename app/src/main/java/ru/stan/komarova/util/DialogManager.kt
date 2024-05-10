@@ -20,6 +20,7 @@ object DialogManager {
                 dialog.dismiss()
             }
             whereGo.setOnClickListener {
+                viewModel.messageForFragment.value = "Куда угодно"
                 listener.onClick()
                 dialog.dismiss()
             }
@@ -37,10 +38,12 @@ object DialogManager {
                 dialog.dismiss()
             }
             Sochi.setOnClickListener {
+                viewModel.messageForFragment.value = "Сочи"
                 listener.onClick()
                 dialog.dismiss()
             }
             Phuket.setOnClickListener {
+                viewModel.messageForFragment.value = "Пхукет"
                 listener.onClick()
                 dialog.dismiss()
             }
