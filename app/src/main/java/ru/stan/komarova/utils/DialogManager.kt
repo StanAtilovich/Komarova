@@ -1,4 +1,4 @@
-package ru.stan.komarova.util
+package ru.stan.komarova.utils
 
 import android.app.AlertDialog
 import android.content.Context

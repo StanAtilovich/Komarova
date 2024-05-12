@@ -9,8 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.stan.komarova.Offer
-import ru.stan.komarova.TicketsApi
+import ru.stan.komarova.db.Offer
+import ru.stan.komarova.db.TicketsApi
 
 class MyViewModel : ViewModel() {
     val offerLiveData = MutableLiveData<List<Offer>>()

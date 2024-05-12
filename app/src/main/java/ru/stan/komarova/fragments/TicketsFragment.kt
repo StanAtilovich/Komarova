@@ -15,7 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.stan.komarova.adapter.TicketsRcAdapter
 import ru.stan.komarova.databinding.FragmentTicketsBinding
-import ru.stan.komarova.util.DialogManager
+import ru.stan.komarova.utils.DialogManager
 import ru.stan.komarova.viewModel.MyViewModel
 
 @Suppress("UNREACHABLE_CODE")

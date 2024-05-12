@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.stan.komarova.Offer
+import ru.stan.komarova.db.Offer
 import ru.stan.komarova.R
 import ru.stan.komarova.databinding.LentaItemBinding
 
