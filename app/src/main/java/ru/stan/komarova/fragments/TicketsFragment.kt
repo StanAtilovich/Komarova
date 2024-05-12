@@ -40,15 +40,19 @@ class TicketsFragment : Fragment() {
 
         val inputFilter = viewModel.getInputFilter()
         binding.editWhere.filters = arrayOf(inputFilter)
+        binding.editWhereFrom.filters = arrayOf(inputFilter)
 
-        // setText() вместо addTextChangedListener() для избегания инициализации при старте
-        binding.editWhereFrom.setText(viewModel.editTextValue)
+        binding.editWhereFrom.setText(viewModel.editTextValue.value)
+        binding.searchTickets.setOnClickListener {
+            activity?.let { it1 -> viewModel.openFragment(it1, SearchFragment.newInstance()) }
+        }
 
         setupListeners()
 
         viewModel.offerLiveData.observe(viewLifecycleOwner, Observer { offers ->
             adapter.submitList(offers)
         })
+
 
         viewModel.fetchOffersFromApi()
 
@@ -132,9 +136,10 @@ class TicketsFragment : Fragment() {
 
 
     override fun onSaveInstanceState(outState: Bundle) {
-        viewModel.editTextValue = binding.editWhereFrom.text.toString()
         super.onSaveInstanceState(outState)
+        viewModel.editTextValue.value = binding.editWhereFrom.text.toString()
     }
+
 
     companion object {
         @JvmStatic

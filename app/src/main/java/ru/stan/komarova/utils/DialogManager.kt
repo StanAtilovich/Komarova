@@ -43,16 +43,19 @@ object DialogManager {
                 viewModel.messageForFragment.value = "Стамбул"
                 listener.onClick()
                 dialog.dismiss()
+             //   openFragment(context, AllTicketsFragment.newInstance())
             }
             Sochi.setOnClickListener {
                 viewModel.messageForFragment.value = "Сочи"
                 listener.onClick()
                 dialog.dismiss()
+              //  openFragment(context, AllTicketsFragment.newInstance())
             }
             Phuket.setOnClickListener {
                 viewModel.messageForFragment.value = "Пхукет"
                 listener.onClick()
                 dialog.dismiss()
+               // openFragment(context, AllTicketsFragment.newInstance())
             }
         }
         dialog.show()
