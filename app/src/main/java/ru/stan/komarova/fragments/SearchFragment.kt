@@ -11,6 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ru.stan.komarova.R
 import ru.stan.komarova.databinding.FragmentSearchBinding
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class SearchFragment : Fragment() {
 private lateinit var binding: FragmentSearchBinding
@@ -23,6 +26,9 @@ private lateinit var binding: FragmentSearchBinding
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentSearchBinding.inflate(inflater, container, false)
+
+        val curentDay = getCurrentDate()
+        binding.dateToday.text = curentDay
 
         return binding.root
     }
@@ -41,6 +47,11 @@ private lateinit var binding: FragmentSearchBinding
             binding.editWhereFrom.text = Editable.Factory.getInstance().newEditable(textWhere)
             binding.editWhere.text = Editable.Factory.getInstance().newEditable(textWhereFrom)
         }
+    }
+
+    private fun getCurrentDate(): String{
+        val sdf = SimpleDateFormat("dd/MM , EE", Locale.getDefault())
+        return sdf.format(Date())
     }
 
 
