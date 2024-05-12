@@ -102,7 +102,7 @@
                                 android:layout_height="wrap_content">
 
                                 <EditText
-                                    android:id="@+id/editWhereFrom"
+                                    android:id="@+id/edit_where_from"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@null"
@@ -147,7 +147,7 @@
                                 android:layout_height="wrap_content">
 
                                 <EditText
-                                    android:id="@+id/editWhere"
+                                    android:id="@+id/edit_where"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@null"
@@ -444,15 +444,14 @@
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/Show_ticketsButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="10dp"
-                android:text="@string/show_every_place"
+                android:text="Показать все билеты"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                app:cardCornerRadius="8dp"
-                />
+                app:cardCornerRadius="8dp" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="400dp"

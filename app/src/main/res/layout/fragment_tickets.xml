@@ -114,7 +114,7 @@
                                 android:layout_height="wrap_content">
 
                                 <EditText
-                                    android:id="@+id/editWhereFrom"
+                                    android:id="@+id/edit_where_from_1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@null"
@@ -147,7 +147,7 @@
                                 android:layout_height="wrap_content">
 
                                 <EditText
-                                    android:id="@+id/editWhere"
+                                    android:id="@+id/edit_where_1"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@null"

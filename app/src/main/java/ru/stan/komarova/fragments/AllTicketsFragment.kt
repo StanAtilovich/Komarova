@@ -36,7 +36,7 @@ class AllTicketsFragment : Fragment() {
     private fun back() = with(binding) {
         imBack.setOnClickListener {
             Toast.makeText(context, "назад", Toast.LENGTH_SHORT).show()
-            context?.let { it1 -> openFragment(it1, TicketsFragment.newInstance()) }
+            context?.let { it1 -> openFragment(it1, SearchFragment.newInstance()) }
         }
     }
     private fun openFragment(context: Context, fragment: Fragment){

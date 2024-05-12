@@ -1,5 +1,6 @@
 package ru.stan.komarova.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,28 +10,28 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import ru.stan.komarova.R
 import ru.stan.komarova.adapter.TicketsRcAdapter
 import ru.stan.komarova.databinding.FragmentTicketsBinding
 import ru.stan.komarova.utils.DialogManager
 import ru.stan.komarova.viewModel.MyViewModel
 
-@Suppress("UNREACHABLE_CODE")
 class TicketsFragment : Fragment() {
     private lateinit var binding: FragmentTicketsBinding
     private lateinit var adapter: TicketsRcAdapter
     private lateinit var viewModel: MyViewModel
-    private var isDialogOpen = false
     private var textChangedByUser = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this).get(MyViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
         binding = FragmentTicketsBinding.inflate(inflater, container, false)
 
         adapter = TicketsRcAdapter()
@@ -39,13 +40,11 @@ class TicketsFragment : Fragment() {
         binding.rcView.adapter = adapter
 
         val inputFilter = viewModel.getInputFilter()
-        binding.editWhere.filters = arrayOf(inputFilter)
-        binding.editWhereFrom.filters = arrayOf(inputFilter)
+        binding.editWhere1.filters = arrayOf(inputFilter)
+        binding.editWhereFrom1.filters = arrayOf(inputFilter)
 
-        binding.editWhereFrom.setText(viewModel.editTextValue.value)
-        binding.searchTickets.setOnClickListener {
-            activity?.let { it1 -> viewModel.openFragment(it1, SearchFragment.newInstance()) }
-        }
+
+
 
         setupListeners()
 
@@ -56,33 +55,73 @@ class TicketsFragment : Fragment() {
 
         viewModel.fetchOffersFromApi()
 
+
         return binding.root
     }
+    private fun openFragment(context: Context?, fragment: Fragment) {
+        if (context is AppCompatActivity) {
+            context.supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.placeHolder, fragment)
+                .commit()
+        }
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.messageForFragment.observe(viewLifecycleOwner) { message ->
+            binding.editWhere1.setText(message)
+        }
+
+        viewModel.editTextValueWhereFrom.observe(viewLifecycleOwner) { value ->
+            binding.editWhereFrom1.setText(value)
+        }
+
+
+
+        binding.searchTickets.setOnClickListener {
+            openFragment(context, SearchFragment.newInstance())
+            viewModel.editTextValueWhereFrom.value = binding.editWhereFrom1.text.toString()
+            viewModel.editTextValueWhere.value = binding.editWhere1.text.toString()
+    }
+
+        viewModel.editTextValueWhere.observe(viewLifecycleOwner) { value ->
+            binding.editWhere1.setText(value)
+        }
+
+
+
+    }
+
 
     private fun setupListeners() {
         with(binding) {
             viewModel.getInputFilter()
 
             clearText.setOnClickListener {
-                editWhere.text.clear()
+                editWhere1.text.clear()
+
             }
             clearText1.setOnClickListener {
-                editWhereFrom.text.clear()
+                editWhereFrom1.text.clear()
+                viewModel.isDialogOpen = false
             }
 
-            setupTextListener(editWhere, clearText)
-            setupTextListener(editWhereFrom, clearText1)
-            addPlaneImageTextWatcher(editWhere, imageView2)
-            addPlaneImageTextWatcher(editWhereFrom, plane)
+            setupTextListener(editWhere1, clearText)
+            setupTextListener(editWhereFrom1, clearText1)
+            addPlaneImageTextWatcher(editWhere1, imageView2)
+            addPlaneImageTextWatcher(editWhereFrom1, plane)
         }
 
-        binding.editWhere.addTextChangedListener(object : TextWatcher {
+        binding.editWhere1.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (textChangedByUser && !isDialogOpen) {
+                if (textChangedByUser && !viewModel.isDialogOpen) {
                     openDialog()
-                    isDialogOpen = true
+                    viewModel.isDialogOpen = true
                 }
             }
 
@@ -93,15 +132,18 @@ class TicketsFragment : Fragment() {
     }
 
     private fun openDialog() {
-        val context = context ?: return
-        val myViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
-
-        DialogManager.showSaveDialog(context, object : DialogManager.Listener {
-            override fun onClick() {
-                Toast.makeText(context, "пошло", Toast.LENGTH_SHORT).show()
-                isDialogOpen = false
+        if (!viewModel.isDialogOpen) {
+            viewModel.isDialogOpen = false
+            val context = context ?: return
+            viewModel.let { myViewModel ->
+                DialogManager.showSaveDialog(context, object : DialogManager.Listener {
+                    override fun onClick() {
+                        Toast.makeText(context, "пошло", Toast.LENGTH_SHORT).show()
+                        viewModel.isDialogOpen = true
+                    }
+                }, myViewModel)
             }
-        }, myViewModel)
+        }
     }
 
 
@@ -127,19 +169,6 @@ class TicketsFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        viewModel.messageForFragment.observe(viewLifecycleOwner) { message ->
-            binding.editWhere.setText(message)
-        }
-    }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        viewModel.editTextValue.value = binding.editWhereFrom.text.toString()
-    }
-
 
     companion object {
         @JvmStatic

@@ -1,10 +1,7 @@
 package ru.stan.komarova.viewModel
 
-import android.content.Context
 import android.text.InputFilter
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -12,30 +9,22 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.stan.komarova.R
 import ru.stan.komarova.db.Offer
 import ru.stan.komarova.db.TicketsApi
 
 class MyViewModel : ViewModel() {
     val offerLiveData = MutableLiveData<List<Offer>>()
-    var editTextValue: MutableLiveData<String> = MutableLiveData()
     val editTextValueWhereFrom = MutableLiveData<String>()
     val editTextValueWhere = MutableLiveData<String>()
 
-    fun openFragment(context: Context, fragment: Fragment){
-        if (context is AppCompatActivity) {
-            context.supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.placeHolder, fragment)
-                .commit()
-        }
-    }
 
-
+    var isDialogOpen = false
 
     val messageForFragment: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
+
+
     fun fetchOffersFromApi() {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://run.mocky.io/")
