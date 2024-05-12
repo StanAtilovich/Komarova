@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import ru.stan.komarova.R
 import ru.stan.komarova.databinding.FragmentSearchBinding
@@ -30,73 +29,64 @@ class SearchFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
         binding = FragmentSearchBinding.inflate(inflater, container, false)
 
-
-        val curentDay = getCurrentDate()
-        binding.dateToday.text = curentDay
+        val currentDate = getCurrentDate()
+        binding.dateToday.text = currentDate
 
         binding.ShowTicketsButton.setOnClickListener {
-            context?.let { it1 -> openFragment(it1, AllTicketsFragment.newInstance()) }
+            context?.let { openFragment(it, AllTicketsFragment.newInstance()) }
         }
 
-        viewModel.editTextValueWhereFrom.observe(activity as LifecycleOwner, {
-            binding.editWhereFrom.text = Editable.Factory.getInstance().newEditable(it)
+        viewModel.editTextValueWhereFrom.observe(viewLifecycleOwner, {
+            binding.editWhereFrom.text = it.toEditable()
         })
 
-        viewModel.editTextValueWhere.observe(activity as LifecycleOwner, {
-            binding.editWhere.text = Editable.Factory.getInstance().newEditable(it)
+        viewModel.editTextValueWhere.observe(viewLifecycleOwner, {
+            binding.editWhere.text = it.toEditable()
         })
 
         binding.imBack.setOnClickListener {
-            viewModel.editTextValueWhere.value= binding.editWhere.text.toString()
+            viewModel.editTextValueWhere.value = binding.editWhere.text.toString()
             viewModel.editTextValueWhereFrom.value = binding.editWhereFrom.text.toString()
             back()
         }
 
+        setupViews()
 
-        changeEditText()
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private fun setupViews() {
+        with(binding) {
+            change.setOnClickListener {
+                val textWhereFrom = editWhereFrom.text
+                val textWhere = editWhere.text
 
+                editWhereFrom.text = textWhere.toEditable()
+                editWhere.text = textWhereFrom.toEditable()
+            }
 
+            addDate.setOnClickListener {
+                showDatePickerDialog()
+            }
+        }
     }
-
 
     private fun openFragment(context: Context, fragment: Fragment) {
         if (context is AppCompatActivity) {
-            context.supportFragmentManager
-                .beginTransaction()
+            context.supportFragmentManager.beginTransaction()
                 .replace(R.id.placeHolder, fragment)
                 .commit()
         }
     }
 
-    private fun back() = with(binding) {
-        imBack.setOnClickListener {
-            Toast.makeText(context, "назад", Toast.LENGTH_SHORT).show()
-            context?.let { it1 -> openFragment(it1, TicketsFragment.newInstance()) }
-        }
-    }
-
-    private fun changeEditText() = with(binding) {
-        change.setOnClickListener {
-            val textWhereFrom = editWhereFrom.text
-            val textWhere = editWhere.text
-
-            editWhereFrom.text = Editable.Factory.getInstance().newEditable(textWhere)
-            editWhere.text = Editable.Factory.getInstance().newEditable(textWhereFrom)
-        }
-        addDate.setOnClickListener {
-            showDatePickerDialog()
-
-        }
+    private fun back() {
+        Toast.makeText(context, "назад", Toast.LENGTH_SHORT).show()
+        context?.let { openFragment(it, TicketsFragment.newInstance()) }
     }
 
     private fun showDatePickerDialog() {
         val datePicker = DatePickerDialog(requireContext())
-        datePicker.setOnDateSetListener { view, year, month, dayOfMonth ->
+        datePicker.setOnDateSetListener { _, year, month, dayOfMonth ->
             val selectedDate = "$dayOfMonth/${month + 1}/$year"
             binding.dateView.text = selectedDate
         }
@@ -108,9 +98,12 @@ class SearchFragment : Fragment() {
         return sdf.format(Date())
     }
 
-
     companion object {
         @JvmStatic
         fun newInstance() = SearchFragment()
+    }
+
+    private fun CharSequence.toEditable(): Editable {
+        return Editable.Factory.getInstance().newEditable(this)
     }
 }

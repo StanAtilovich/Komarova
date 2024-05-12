@@ -13,6 +13,7 @@ import ru.stan.komarova.db.Offer
 import ru.stan.komarova.db.TicketsApi
 
 class MyViewModel : ViewModel() {
+    var textChangedByUser = false
     val offerLiveData = MutableLiveData<List<Offer>>()
     val editTextValueWhereFrom = MutableLiveData<String>()
     val editTextValueWhere = MutableLiveData<String>()
