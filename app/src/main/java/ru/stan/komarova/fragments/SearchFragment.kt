@@ -36,7 +36,8 @@ class SearchFragment : Fragment() {
             context?.let { openFragment(it, AllTicketsFragment.newInstance()) }
             viewModel.editTextValueWhere.value = binding.editWhere.text.toString()
             viewModel.editTextValueWhereFrom.value = binding.editWhereFrom.text.toString()
-
+                //отправил
+            viewModel.dateToday.value = binding.dateToday.text.toString()
         }
 
         viewModel.editTextValueWhereFrom.observe(viewLifecycleOwner) {
@@ -93,14 +94,17 @@ class SearchFragment : Fragment() {
         }
         datePicker.show()
     }
+
     private fun getCurrentDate(): String {
         val sdf = SimpleDateFormat("dd/MM , EE", Locale.getDefault())
         return sdf.format(Date())
     }
+
     companion object {
         @JvmStatic
         fun newInstance() = SearchFragment()
     }
+
     private fun CharSequence.toEditable(): Editable {
         return Editable.Factory.getInstance().newEditable(this)
     }

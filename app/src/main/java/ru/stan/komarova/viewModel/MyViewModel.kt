@@ -17,6 +17,7 @@ class MyViewModel : ViewModel() {
     val offerLiveData = MutableLiveData<List<Offer>>()
     val editTextValueWhereFrom = MutableLiveData<String>()
     val editTextValueWhere = MutableLiveData<String>()
+    val dateToday = MutableLiveData<String>()
 
 
     var isDialogOpen = false

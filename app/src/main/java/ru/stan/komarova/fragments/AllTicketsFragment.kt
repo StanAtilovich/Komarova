@@ -27,16 +27,26 @@ class AllTicketsFragment : Fragment() {
     ): View {
         viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
         binding = FragmentAllTicketsBinding.inflate(inflater, container, false)
-
-
         cityShow()
 
-
-
-
+        date()
         return binding.root
 
     }
+
+
+    //получил
+    private fun date(){
+        var date = ""
+        var people = ", 1 пассажир"
+        var fullDatePeople = ""
+        viewModel.dateToday.observe(viewLifecycleOwner) {
+            date= it
+            fullDatePeople = date + people
+            binding.data.text = fullDatePeople
+        }
+    }
+
 
 
     private fun cityShow() {
