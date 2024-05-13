@@ -1,4 +1,4 @@
-package ru.stan.komarova.utils
+package ru.stan.komarova.presentation.utils
 
 import android.app.AlertDialog
 import android.content.Context
@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ru.stan.komarova.R
 import ru.stan.komarova.databinding.DialogBinding
-import ru.stan.komarova.fragments.HotelsFragment
-import ru.stan.komarova.viewModel.MyViewModel
+import ru.stan.komarova.presentation.ui.fragments.HotelsFragment
+import ru.stan.komarova.presentation.viewModel.MyViewModel
 
 object DialogManager {
     fun showSaveDialog(context: Context, listener: Listener, viewModel: MyViewModel) {

@@ -1,4 +1,4 @@
-package ru.stan.komarova.db
+package ru.stan.komarova.domain.model
 
 data class Tickets(
     val offers: List<Offer>

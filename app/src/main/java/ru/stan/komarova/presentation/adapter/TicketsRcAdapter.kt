@@ -1,4 +1,4 @@
-package ru.stan.komarova.adapter
+package ru.stan.komarova.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ru.stan.komarova.db.Offer
 import ru.stan.komarova.R
 import ru.stan.komarova.databinding.LentaItemBinding
+import ru.stan.komarova.domain.model.Offer
 
 class TicketsRcAdapter : ListAdapter<Offer, TicketsRcAdapter.Holder>(Comparator()) {
     class Holder(view: View) : RecyclerView.ViewHolder(view) {

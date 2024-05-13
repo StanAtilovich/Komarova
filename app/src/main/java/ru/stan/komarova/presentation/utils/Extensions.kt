@@ -1,4 +1,4 @@
-package ru.stan.komarova.utils
+package ru.stan.komarova.presentation.utils
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment

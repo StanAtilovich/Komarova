@@ -1,4 +1,4 @@
-package ru.stan.komarova.db
+package ru.stan.komarova.domain.model
 
 data class SearchCountry(
     val tickets_offers: List<TicketsOffer>

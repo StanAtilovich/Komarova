@@ -1,4 +1,4 @@
-package ru.stan.komarova.fragments
+package ru.stan.komarova.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

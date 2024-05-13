@@ -1,4 +1,4 @@
-package ru.stan.komarova.viewModel
+package ru.stan.komarova.presentation.viewModel
 
 import android.text.InputFilter
 import android.util.Log
@@ -9,8 +9,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.stan.komarova.db.Offer
-import ru.stan.komarova.db.TicketsApi
+import ru.stan.komarova.domain.model.Offer
+import ru.stan.komarova.data.network.TicketsApi
 
 class MyViewModel : ViewModel() {
     var textChangedByUser = false

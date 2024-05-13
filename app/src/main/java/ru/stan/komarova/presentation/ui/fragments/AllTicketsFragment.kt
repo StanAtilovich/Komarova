@@ -1,4 +1,4 @@
-package ru.stan.komarova.fragments
+package ru.stan.komarova.presentation.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import ru.stan.komarova.R
 import ru.stan.komarova.databinding.FragmentAllTicketsBinding
-import ru.stan.komarova.viewModel.MyViewModel
+import ru.stan.komarova.presentation.viewModel.MyViewModel
 
 class AllTicketsFragment : Fragment() {
     private lateinit var binding: FragmentAllTicketsBinding

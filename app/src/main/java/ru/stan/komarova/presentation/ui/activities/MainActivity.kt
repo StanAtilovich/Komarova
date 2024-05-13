@@ -1,16 +1,17 @@
-package ru.stan.komarova
+package ru.stan.komarova.presentation.ui.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import ru.stan.komarova.R
 import ru.stan.komarova.databinding.ActivityMainBinding
-import ru.stan.komarova.fragments.HotelsFragment
-import ru.stan.komarova.fragments.ProfileFragment
-import ru.stan.komarova.fragments.ShortsFragment
-import ru.stan.komarova.fragments.SingsFragment
-import ru.stan.komarova.fragments.TicketsFragment
-import ru.stan.komarova.utils.openFragment
-import ru.stan.komarova.viewModel.MyViewModel
+import ru.stan.komarova.presentation.ui.fragments.HotelsFragment
+import ru.stan.komarova.presentation.ui.fragments.ProfileFragment
+import ru.stan.komarova.presentation.ui.fragments.ShortsFragment
+import ru.stan.komarova.presentation.ui.fragments.SingsFragment
+import ru.stan.komarova.presentation.ui.fragments.TicketsFragment
+import ru.stan.komarova.presentation.utils.openFragment
+import ru.stan.komarova.presentation.viewModel.MyViewModel
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding

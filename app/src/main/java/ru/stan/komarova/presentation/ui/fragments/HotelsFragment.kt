@@ -1,4 +1,4 @@
-package ru.stan.komarova.fragments
+package ru.stan.komarova.presentation.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import ru.stan.komarova.databinding.FragmentHotelsBinding
-import ru.stan.komarova.utils.openFragment
+import ru.stan.komarova.presentation.utils.openFragment
 
 class HotelsFragment : Fragment() {
     private lateinit var binding: FragmentHotelsBinding

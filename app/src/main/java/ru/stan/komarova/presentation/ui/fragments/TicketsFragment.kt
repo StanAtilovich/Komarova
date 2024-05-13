@@ -1,4 +1,4 @@
-package ru.stan.komarova.fragments
+package ru.stan.komarova.presentation.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -16,10 +16,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.stan.komarova.R
-import ru.stan.komarova.adapter.TicketsRcAdapter
+import ru.stan.komarova.presentation.adapter.TicketsRcAdapter
 import ru.stan.komarova.databinding.FragmentTicketsBinding
-import ru.stan.komarova.utils.DialogManager
-import ru.stan.komarova.viewModel.MyViewModel
+import ru.stan.komarova.presentation.utils.DialogManager
+import ru.stan.komarova.presentation.viewModel.MyViewModel
 
 class TicketsFragment : Fragment() {
     private lateinit var binding: FragmentTicketsBinding
