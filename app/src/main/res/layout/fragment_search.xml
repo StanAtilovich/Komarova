@@ -146,6 +146,18 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
 
+                                <ImageView
+                                    android:id="@+id/cross"
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:layout_alignParentTop="true"
+                                    android:layout_alignParentEnd="true"
+                                    android:layout_alignParentBottom="true"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginEnd="13dp"
+                                    android:layout_marginBottom="9dp"
+                                    android:src="@android:drawable/ic_menu_close_clear_cancel" />
+
                                 <EditText
                                     android:id="@+id/edit_where"
                                     android:layout_width="match_parent"

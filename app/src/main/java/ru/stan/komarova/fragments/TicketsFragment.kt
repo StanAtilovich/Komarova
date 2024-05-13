@@ -25,15 +25,12 @@ class TicketsFragment : Fragment() {
     private lateinit var binding: FragmentTicketsBinding
     private lateinit var adapter: TicketsRcAdapter
     private lateinit var viewModel: MyViewModel
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
         binding = FragmentTicketsBinding.inflate(inflater, container, false)
-
         adapter = TicketsRcAdapter()
         binding.rcView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

@@ -34,24 +34,25 @@ class SearchFragment : Fragment() {
 
         binding.ShowTicketsButton.setOnClickListener {
             context?.let { openFragment(it, AllTicketsFragment.newInstance()) }
+            viewModel.editTextValueWhere.value = binding.editWhere.text.toString()
+            viewModel.editTextValueWhereFrom.value = binding.editWhereFrom.text.toString()
+
         }
 
-        viewModel.editTextValueWhereFrom.observe(viewLifecycleOwner, {
+        viewModel.editTextValueWhereFrom.observe(viewLifecycleOwner) {
             binding.editWhereFrom.text = it.toEditable()
-        })
+        }
 
-        viewModel.editTextValueWhere.observe(viewLifecycleOwner, {
+        viewModel.editTextValueWhere.observe(viewLifecycleOwner) {
             binding.editWhere.text = it.toEditable()
-        })
+        }
 
         binding.imBack.setOnClickListener {
             viewModel.editTextValueWhere.value = binding.editWhere.text.toString()
             viewModel.editTextValueWhereFrom.value = binding.editWhereFrom.text.toString()
             back()
         }
-
         setupViews()
-
         return binding.root
     }
 
@@ -92,17 +93,14 @@ class SearchFragment : Fragment() {
         }
         datePicker.show()
     }
-
     private fun getCurrentDate(): String {
         val sdf = SimpleDateFormat("dd/MM , EE", Locale.getDefault())
         return sdf.format(Date())
     }
-
     companion object {
         @JvmStatic
         fun newInstance() = SearchFragment()
     }
-
     private fun CharSequence.toEditable(): Editable {
         return Editable.Factory.getInstance().newEditable(this)
     }
