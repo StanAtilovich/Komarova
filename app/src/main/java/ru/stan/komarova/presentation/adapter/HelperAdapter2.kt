@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ru.stan.komarova.R
 
-class HelperAdapter2(private val title: ArrayList<String>, private val time: ArrayList<String>, private val value: ArrayList<String>, private val context: Context) :
+class HelperAdapter2(private val title: ArrayList<String>, private val value: ArrayList<String>,private val context: Context) :
     RecyclerView.Adapter<HelperAdapter2.MyViewClass>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewClass {
@@ -18,20 +18,20 @@ class HelperAdapter2(private val title: ArrayList<String>, private val time: Arr
     }
 
     override fun onBindViewHolder(holder: MyViewClass, position: Int) {
-        holder.bind(title[position], time[position], value[position])
+        holder.bind(title[position], value[position])
     }
 
     override fun getItemCount(): Int = title.size
 
     inner class MyViewClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val titleTextView: TextView = itemView.findViewById(androidx.core.R.id.title)
-      //  private val tvPriceFlightsTextView: TextView = itemView.findViewById(R.id.tvPriceFlights)
-      //  private val tvTimeTextView: TextView = itemView.findViewById(R.id.tvTime)
+        private val titleTextView: TextView = itemView.findViewById(R.id.valueTextView)
+        private val tvPriceFlightsTextView: TextView = itemView.findViewById(R.id.titleDividerNoCustom)
 
-        fun bind(titleText: String, priceText: String, timeText: String) {
+
+        fun bind(titleText: String, priceText: String) {
             titleTextView.text = titleText
-           // tvPriceFlightsTextView.text = priceText
-           // tvTimeTextView.text = timeText
+            tvPriceFlightsTextView.text = priceText
+
 
             itemView.setOnClickListener {
                 Toast.makeText(context, "Item Clicked", Toast.LENGTH_LONG).show()

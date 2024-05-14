@@ -23,59 +23,38 @@ class AllTicketsFragment : Fragment() {
     private lateinit var binding: FragmentAllTicketsBinding
     private lateinit var viewModel: MyViewModel
 
-    //new
     private lateinit var recyclerView: RecyclerView
     private val titleList = ArrayList<String>()
-    private val timeList = ArrayList<String>()
-    private val valueList = ArrayList<String>()
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
+    private val timeRangeList = ArrayList<String>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
         binding = FragmentAllTicketsBinding.inflate(inflater, container, false)
-        cityShow()
-            //new
+
         recyclerView = binding.recyclerViewSecond
         recyclerView.layoutManager = LinearLayoutManager(context)
-        loadUserDataFromJson("users.json")
-        recyclerView.adapter = context?.let { HelperAdapter2(titleList, timeList, valueList, it) }
-
-
+        loadUserDataFromJson("users2.json")
+        recyclerView.adapter = HelperAdapter2(titleList, timeRangeList, requireContext())
         date()
         return binding.root
-
     }
 
-    //new
     private fun loadUserDataFromJson(fileName: String) {
         try {
-            val inputStream = context?.assets?.open(fileName)
-            val size = inputStream?.available()
-            val buffer = ByteArray(size!!)
-            inputStream.read(buffer)
-            inputStream.close()
-            val jsonString = String(buffer, Charsets.UTF_8)
-            val jsonArray = JSONObject(jsonString).getJSONArray("tickets_offers")
+            val jsonString =
+                context?.assets?.open(fileName)?.bufferedReader().use { it?.readText() }
+            val jsonArray = JSONObject(jsonString).getJSONArray("tickets")
+
             for (i in 0 until jsonArray.length()) {
-                val userData = jsonArray.getJSONObject(i)
-                titleList.add(userData.getString("title"))
-
-                val timeRangeArray = userData.getJSONArray("time_range")
-                val timeRangeStringBuilder = StringBuilder()
-                for (j in 0 until timeRangeArray.length()) {
-                    timeRangeStringBuilder.append(timeRangeArray.getString(j)).append(", ")
-                }
-                val timeRangeString = timeRangeStringBuilder.toString().trimEnd(',', ' ')
-                timeList.add(timeRangeString)
-
-                val priceObject = userData.getJSONObject("price")
-                valueList.add(priceObject.getInt("value").toString())
+                val ticket = jsonArray.getJSONObject(i)
+                titleList.add(ticket.getString("badge"))
+                val priceObject = ticket.getJSONObject("price")
+                val priceValue = priceObject.getInt("value")
+                timeRangeList.add(priceValue.toString())
             }
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -86,17 +65,16 @@ class AllTicketsFragment : Fragment() {
 
 
     //получил
-    private fun date(){
+    private fun date() {
         var date = ""
         var people = ", 1 пассажир"
         var fullDatePeople = ""
         viewModel.dateToday.observe(viewLifecycleOwner) {
-            date= it
+            date = it
             fullDatePeople = date + people
             binding.data.text = fullDatePeople
         }
     }
-
 
 
     private fun cityShow() {
