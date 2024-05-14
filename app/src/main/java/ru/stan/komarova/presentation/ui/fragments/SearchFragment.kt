@@ -152,7 +152,8 @@ class SearchFragment : Fragment() {
         return Editable.Factory.getInstance().newEditable(this)
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-
-
+    }
 }
