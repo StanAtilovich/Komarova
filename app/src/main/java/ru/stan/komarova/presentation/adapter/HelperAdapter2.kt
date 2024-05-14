@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import ru.stan.komarova.R
 
-class HelperAdapter2(private val title: ArrayList<String>, private val value: ArrayList<String>,private val context: Context) :
+class HelperAdapter2(private val title: ArrayList<String>, private val value: ArrayList<String>,private val town:ArrayList<String>,private val context: Context) :
     RecyclerView.Adapter<HelperAdapter2.MyViewClass>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewClass {
@@ -18,7 +18,7 @@ class HelperAdapter2(private val title: ArrayList<String>, private val value: Ar
     }
 
     override fun onBindViewHolder(holder: MyViewClass, position: Int) {
-        holder.bind(title[position], value[position])
+        holder.bind(title[position], value[position],  town[position])
     }
 
     override fun getItemCount(): Int = title.size
@@ -26,11 +26,16 @@ class HelperAdapter2(private val title: ArrayList<String>, private val value: Ar
     inner class MyViewClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTextView: TextView = itemView.findViewById(R.id.valueTextView)
         private val tvPriceFlightsTextView: TextView = itemView.findViewById(R.id.titleDividerNoCustom)
+            //   private val badge: TextView = itemView.findViewById(R.id.badge)
+        private val town: TextView = itemView.findViewById(R.id.town)
 
 
-        fun bind(titleText: String, priceText: String) {
+
+        fun bind(titleText: String, priceText: String,  town1: String) {
             titleTextView.text = titleText
             tvPriceFlightsTextView.text = priceText
+           // badge.text = badge1
+            town.text = town1
 
 
             itemView.setOnClickListener {

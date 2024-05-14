@@ -26,6 +26,8 @@ class AllTicketsFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private val titleList = ArrayList<String>()
     private val timeRangeList = ArrayList<String>()
+    private val badge = ArrayList<String>()
+    private val town = ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,19 +37,11 @@ class AllTicketsFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
         binding = FragmentAllTicketsBinding.inflate(inflater, container, false)
 
-
-
-//        val recyclerView = binding.rcView
-//        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//        recyclerView.layoutManager = layoutManager
-//        recyclerView.adapter = HelperAdapter3(titleList, timeRangeList, requireContext())
-
-
         recyclerView = binding.recyclerViewSecond
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
         loadUserDataFromJson("users2.json")
-        recyclerView.adapter = HelperAdapter2(titleList, timeRangeList, requireContext())
+        recyclerView.adapter = HelperAdapter2(titleList, timeRangeList, town, requireContext())
         date()
         cityShow()
         return binding.root
@@ -55,23 +49,27 @@ class AllTicketsFragment : Fragment() {
 
     private fun loadUserDataFromJson(fileName: String) {
         try {
-            val jsonString =
-                context?.assets?.open(fileName)?.bufferedReader().use { it?.readText() }
+            val jsonString = context?.assets?.open(fileName)?.bufferedReader().use { it?.readText() }
             val jsonArray = JSONObject(jsonString).getJSONArray("tickets")
 
             for (i in 0 until jsonArray.length()) {
                 val ticket = jsonArray.getJSONObject(i)
-                titleList.add(ticket.getString("badge"))
+                titleList.add(ticket.getString("provider_name"))
                 val priceObject = ticket.getJSONObject("price")
                 val priceValue = priceObject.getInt("value")
                 timeRangeList.add(priceValue.toString())
+                val departureObject = ticket.getJSONObject("departure")
+                val townValue = departureObject.getString("town")
+                town.add(townValue)
             }
+
         } catch (e: JSONException) {
             e.printStackTrace()
         } catch (e: IOException) {
             e.printStackTrace()
         }
     }
+
 
 
     //получил
