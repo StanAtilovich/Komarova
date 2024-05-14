@@ -35,11 +35,21 @@ class AllTicketsFragment : Fragment() {
         viewModel = ViewModelProvider(requireActivity()).get(MyViewModel::class.java)
         binding = FragmentAllTicketsBinding.inflate(inflater, container, false)
 
+
+
+//        val recyclerView = binding.rcView
+//        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//        recyclerView.layoutManager = layoutManager
+//        recyclerView.adapter = HelperAdapter3(titleList, timeRangeList, requireContext())
+
+
         recyclerView = binding.recyclerViewSecond
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = layoutManager
         loadUserDataFromJson("users2.json")
         recyclerView.adapter = HelperAdapter2(titleList, timeRangeList, requireContext())
         date()
+        cityShow()
         return binding.root
     }
 
