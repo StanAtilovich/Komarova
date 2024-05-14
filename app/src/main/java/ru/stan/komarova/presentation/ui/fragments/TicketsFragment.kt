@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import org.json.JSONException
 import org.json.JSONObject
 import ru.stan.komarova.R
@@ -33,7 +32,7 @@ class TicketsFragment : Fragment() {
 
     private val titleList = ArrayList<String>()
     private val timeRangeList = ArrayList<String>()
-    private lateinit var recyclerView: RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,26 +52,27 @@ class TicketsFragment : Fragment() {
         })
 
 
-        recyclerView = binding.rcView
-        recyclerView.layoutManager = LinearLayoutManager(context)
+        val recyclerView = binding.rcView
+        val layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.layoutManager = layoutManager
         recyclerView.adapter = HelperAdapter3(titleList, timeRangeList, requireContext())
+
         loadUserDataFromJson("users3.json")
-            //viewModel.fetchOffersFromApi()
         return binding.root
     }
 
     private fun loadUserDataFromJson(fileName: String) {
         try {
             val jsonString = context?.assets?.open(fileName)?.bufferedReader().use { it?.readText() }
-            val jsonArray = JSONObject(jsonString).getJSONArray("offers") // Обновляем ключ на "offers"
+            val jsonArray = JSONObject(jsonString).getJSONArray("offers")
 
             for (i in 0 until jsonArray.length()) {
                 val offer = jsonArray.getJSONObject(i)
-                titleList.add(offer.getString("title")) // Загружаем название мероприятия
+                titleList.add(offer.getString("title"))
                 val town = offer.getString("town")
                 val priceObject = offer.getJSONObject("price")
                 val priceValue = priceObject.getInt("value")
-                timeRangeList.add("$town - $priceValue") // Добавляем комбинированную строку "town - price value"
+                timeRangeList.add("$town - $priceValue")
             }
         } catch (e: JSONException) {
             e.printStackTrace()
