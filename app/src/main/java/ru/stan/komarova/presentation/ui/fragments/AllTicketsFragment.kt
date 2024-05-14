@@ -24,9 +24,9 @@ class AllTicketsFragment : Fragment() {
     private lateinit var viewModel: MyViewModel
 
     private lateinit var recyclerView: RecyclerView
-    private val titleList = ArrayList<String>()
-    private val timeRangeList = ArrayList<String>()
+    private val providerName = ArrayList<String>()
     private val badge = ArrayList<String>()
+    private val value = ArrayList<String>()
     private val town = ArrayList<String>()
 
     override fun onCreateView(
@@ -41,7 +41,7 @@ class AllTicketsFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
         loadUserDataFromJson("users2.json")
-        recyclerView.adapter = HelperAdapter2(titleList, timeRangeList, town, requireContext())
+        recyclerView.adapter = HelperAdapter2(badge,value,providerName, town, requireContext())
         date()
         cityShow()
         return binding.root
@@ -54,14 +54,28 @@ class AllTicketsFragment : Fragment() {
 
             for (i in 0 until jsonArray.length()) {
                 val ticket = jsonArray.getJSONObject(i)
-                titleList.add(ticket.getString("provider_name"))
+
+                val badgeList = if (ticket.has("badge")) {
+                    ticket.getString("badge")
+                } else {
+                    ""  // Если 'badge' отсутствует, оставляем его пустым
+                }
+                badge.add(badgeList)
+                val providerNameList = ticket.getString("provider_name")
                 val priceObject = ticket.getJSONObject("price")
                 val priceValue = priceObject.getInt("value")
-                timeRangeList.add(priceValue.toString())
+                value.add(priceValue.toString())
+
                 val departureObject = ticket.getJSONObject("departure")
                 val townValue = departureObject.getString("town")
                 town.add(townValue)
+                providerName.add(providerNameList)
+
+
+
             }
+
+
 
         } catch (e: JSONException) {
             e.printStackTrace()
@@ -69,6 +83,7 @@ class AllTicketsFragment : Fragment() {
             e.printStackTrace()
         }
     }
+
 
 
 
