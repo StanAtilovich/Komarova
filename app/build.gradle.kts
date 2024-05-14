@@ -70,7 +70,10 @@ dependencies {
     implementation ("androidx.navigation:navigation-ui-ktx:2.3.5")
 
 
+//new
+    implementation ("androidx.recyclerview:recyclerview:1.3.2")
 
+    implementation ("androidx.cardview:cardview:1.0.0")
 
 //end
 }
