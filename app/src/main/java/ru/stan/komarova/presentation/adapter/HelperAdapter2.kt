@@ -42,7 +42,7 @@ class HelperAdapter2(
             departureAirport[position],
             arivalAirport[position],
 
-        )
+            )
 
     }
 
@@ -57,7 +57,7 @@ class HelperAdapter2(
         private val date: TextView = itemView.findViewById(R.id.arrivalDate)
         private val arrivalDate: TextView = itemView.findViewById(R.id.town)
         private val arivalAirport: TextView = itemView.findViewById(R.id.arival_airport)
-      //  private val timeDiference: TextView = itemView.findViewById(R.id.allfliteTime)
+        private val timeDiference1: TextView = itemView.findViewById(R.id.allfliteTime)
 
 
         @RequiresApi(Build.VERSION_CODES.O)
@@ -68,7 +68,7 @@ class HelperAdapter2(
             dateTimeString: String, // Поменяли параметр на dateTimeString
             arrivalDate: String,
             arivalAirport: String,
-           // allFliteTime: String
+            // allFliteTime: String
         ) {
             if (badge1.isNotEmpty()) {
                 badgeTextView.visibility = View.VISIBLE
@@ -105,7 +105,11 @@ class HelperAdapter2(
             this.arrivalDate.text = arrivalDate
             this.arivalAirport.text = arivalAirport
 
-
+            val timeDiferance = Duration.between(dateTime1, dateTime).seconds
+            val hours = timeDiferance / 3600
+            val minutes = (timeDiferance % 3600) / 60
+            val timeDifferenceHoursMinutes = String.format("%d:%02d", hours, minutes)
+            timeDiference1.text = timeDifferenceHoursMinutes+"ч в пути"
 
             itemView.setOnClickListener {
                 Toast.makeText(context, "Item Clicked", Toast.LENGTH_LONG).show()
@@ -114,22 +118,7 @@ class HelperAdapter2(
 
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun calculateTimeDifference(dateTimeString: String, titleText: String): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
-        val dateTime1 = LocalDateTime.parse(dateTimeString, formatter)
-
-        val dateTime2 = LocalDateTime.parse(titleText, formatter)
-
-        // Расчет разницы между двумя временными значениями
-        val duration = Duration.between(dateTime1, dateTime2)
-
-        // Получение разницы в часах и минутах
-        val hours = duration.toHours()
-        val minutes = duration.toMinutes() % 60
-
-        return "$hours часов $minutes минут"
-    }
-
 }
+
+
 
