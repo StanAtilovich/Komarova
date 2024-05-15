@@ -1,13 +1,19 @@
 package ru.stan.komarova.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import ru.stan.komarova.R
+import java.time.Duration
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class HelperAdapter2(
     private val badge: ArrayList<String>,
@@ -26,8 +32,17 @@ class HelperAdapter2(
         return MyViewClass(view)
     }
 
+    @SuppressLint("NewApi")
     override fun onBindViewHolder(holder: MyViewClass, position: Int) {
-        holder.bind(badge[position],value[position],  date[position], arivalDate[position],departureAirport[position], arivalAirport[position])
+        holder.bind(
+            badge[position],
+            value[position],
+            date[position],
+            arivalDate[position],
+            departureAirport[position],
+            arivalAirport[position],
+
+        )
 
     }
 
@@ -42,15 +57,18 @@ class HelperAdapter2(
         private val date: TextView = itemView.findViewById(R.id.arrivalDate)
         private val arrivalDate: TextView = itemView.findViewById(R.id.town)
         private val arivalAirport: TextView = itemView.findViewById(R.id.arival_airport)
+      //  private val timeDiference: TextView = itemView.findViewById(R.id.allfliteTime)
 
 
+        @RequiresApi(Build.VERSION_CODES.O)
         fun bind(
             badge1: String,
             priceText: String,
             titleText: String,
-            date: String,
+            dateTimeString: String, // Поменяли параметр на dateTimeString
             arrivalDate: String,
-            arivalAirport: String
+            arivalAirport: String,
+           // allFliteTime: String
         ) {
             if (badge1.isNotEmpty()) {
                 badgeTextView.visibility = View.VISIBLE
@@ -58,9 +76,32 @@ class HelperAdapter2(
             } else {
                 badgeTextView.visibility = View.GONE
             }
-            tvPriceFlightsTextView.text = priceText + "  ₽"
-            titleTextView.text = titleText
-            this.date.text = date
+
+            tvPriceFlightsTextView.text = priceText + " ₽"
+
+
+            // Преобразование строки в LocalDateTime
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+            val dateTime = LocalDateTime.parse(dateTimeString, formatter)
+
+            // Отображение только часов и минут
+            val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
+            val timeString = dateTime.format(timeFormatter)
+
+
+            // Преобразование строки в LocalDateTime
+            val formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+            val dateTime1 = LocalDateTime.parse(titleText, formatter1)
+
+            // Отображение только часов и минут
+            val timeFormatter1 = DateTimeFormatter.ofPattern("HH:mm")
+            val timeString1 = dateTime1.format(timeFormatter1)
+
+
+            titleTextView.text = timeString1 + " - "
+
+            this.date.text = timeString
+
             this.arrivalDate.text = arrivalDate
             this.arivalAirport.text = arivalAirport
 
@@ -71,6 +112,24 @@ class HelperAdapter2(
             }
         }
 
-
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun calculateTimeDifference(dateTimeString: String, titleText: String): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
+        val dateTime1 = LocalDateTime.parse(dateTimeString, formatter)
+
+        val dateTime2 = LocalDateTime.parse(titleText, formatter)
+
+        // Расчет разницы между двумя временными значениями
+        val duration = Duration.between(dateTime1, dateTime2)
+
+        // Получение разницы в часах и минутах
+        val hours = duration.toHours()
+        val minutes = duration.toMinutes() % 60
+
+        return "$hours часов $minutes минут"
+    }
+
 }
+
