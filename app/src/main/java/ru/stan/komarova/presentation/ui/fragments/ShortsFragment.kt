@@ -9,9 +9,6 @@ import ru.stan.komarova.databinding.FragmentShortsBinding
 
 class ShortsFragment : Fragment() {
 private lateinit var binding: FragmentShortsBinding
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

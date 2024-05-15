@@ -80,7 +80,6 @@ class AllTicketsFragment : Fragment() {
                 val townValue = departureObject.getString("date")
                 date.add(townValue)
 
-                //hastransfer
                 val hasTransferString = ticket.getString("has_transfer")
                 val hasTransferValue = hasTransferString.toBoolean()
                 hasTransfer.add(hasTransferValue.toString())
@@ -90,11 +89,6 @@ class AllTicketsFragment : Fragment() {
                 arrivalDate.add(arrivalValue)
                 val arAirport = arrivalObject.getString("airport")
                 arivalAirport.add(arAirport)
-
-
-
-
-
 
                 val departureAirport2 = departureObject.getString("airport")
                 departureAirport.add(departureAirport2)
@@ -108,13 +102,7 @@ class AllTicketsFragment : Fragment() {
                     } else {
                         ""
                     }
-
-
-
-
                 badge.add(badgeList)
-
-
             }
 
 
@@ -125,8 +113,6 @@ class AllTicketsFragment : Fragment() {
         }
     }
 
-
-    //получил
     private fun date() {
         var date = ""
         var people = ", 1 пассажир"

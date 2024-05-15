@@ -67,7 +67,7 @@ class HelperAdapter2(
             badge1: String,
             priceText: String,
             titleText: String,
-            dateTimeString: String, // Поменяли параметр на dateTimeString
+            dateTimeString: String,
             arrivalDate: String,
             arivalAirport: String,
             hasTransfer: String
@@ -81,21 +81,15 @@ class HelperAdapter2(
 
             tvPriceFlightsTextView.text = priceText + " ₽"
 
-
-            // Преобразование строки в LocalDateTime
             val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
             val dateTime = LocalDateTime.parse(dateTimeString, formatter)
 
-            // Отображение только часов и минут
             val timeFormatter = DateTimeFormatter.ofPattern("HH:mm")
             val timeString = dateTime.format(timeFormatter)
 
-
-            // Преобразование строки в LocalDateTime
             val formatter1 = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss")
             val dateTime1 = LocalDateTime.parse(titleText, formatter1)
 
-            // Отображение только часов и минут
             val timeFormatter1 = DateTimeFormatter.ofPattern("HH:mm")
             val timeString1 = dateTime1.format(timeFormatter1)
 
@@ -120,10 +114,6 @@ class HelperAdapter2(
             } else {
                 "без пересадок"
             }
-
-
-
-
 
             itemView.setOnClickListener {
                 Toast.makeText(context, "Item Clicked", Toast.LENGTH_LONG).show()

@@ -27,7 +27,6 @@ import java.util.Locale
 class SearchFragment : Fragment() {
     private lateinit var binding: FragmentSearchBinding
     private lateinit var viewModel: MyViewModel
-    //new
     private lateinit var recyclerView: RecyclerView
     private val titleList = ArrayList<String>()
     private val timeList = ArrayList<String>()
@@ -44,7 +43,7 @@ class SearchFragment : Fragment() {
             context?.let { openFragment(it, AllTicketsFragment.newInstance()) }
             viewModel.editTextValueWhere.value = binding.editWhere.text.toString()
             viewModel.editTextValueWhereFrom.value = binding.editWhereFrom.text.toString()
-                //отправил
+
             viewModel.dateToday.value = binding.dateToday.text.toString()
         }
         viewModel.editTextValueWhereFrom.observe(viewLifecycleOwner) {
@@ -58,7 +57,7 @@ class SearchFragment : Fragment() {
             viewModel.editTextValueWhereFrom.value = binding.editWhereFrom.text.toString()
             back()
         }
-//new
+
         recyclerView = binding.recyclerView
         recyclerView.layoutManager = LinearLayoutManager(context)
         loadUserDataFromJson("users.json")
@@ -66,7 +65,7 @@ class SearchFragment : Fragment() {
         setupViews()
         return binding.root
     }
-    //new
+
     private fun loadUserDataFromJson(fileName: String) {
         try {
             val inputStream = context?.assets?.open(fileName)

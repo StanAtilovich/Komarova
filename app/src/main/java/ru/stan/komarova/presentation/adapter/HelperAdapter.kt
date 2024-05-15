@@ -19,12 +19,6 @@ class HelperAdapter(private val title: ArrayList<String>, private val time: Arra
 
     override fun onBindViewHolder(holder: MyViewClass, position: Int) {
         holder.bind(title[position], time[position], value[position])
-//
-//        holder.tvPriceFlightsTextView.text = it.context.resources.getString(R.string.right_flights_item)
-//
-//
-//        holder.tvPriceFlightsTextView.ellipsize = TextUtils.TruncateAt.END
-//        holder.tvPriceFlightsTextView.maxLines = 1
     }
 
     override fun getItemCount(): Int = title.size
@@ -39,7 +33,7 @@ class HelperAdapter(private val title: ArrayList<String>, private val time: Arra
             titleTextView.text = titleText
             tvTimeTextView.text = timeText + "  ₽"
 
-            val maxLength = 40 // Максимальная длина текста
+            val maxLength = 40
             val trimmedPriceText = if (priceText.length > maxLength) {
                 priceText.substring(0, maxLength) + "..."
             } else {
@@ -47,8 +41,6 @@ class HelperAdapter(private val title: ArrayList<String>, private val time: Arra
             }
 
             tvPriceFlightsTextView.text = trimmedPriceText
-
-
 
             itemView.setOnClickListener {
                 Toast.makeText(context, "Item Clicked", Toast.LENGTH_LONG).show()
