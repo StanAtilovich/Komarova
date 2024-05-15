@@ -114,7 +114,15 @@ class HelperAdapter2(
             timeDiference1.text = timeDifferenceHoursMinutes + "ч в пути"
 
 
-            this.hasTransfer.text = hasTransfer
+            val hasTransferBoolean = hasTransfer.toBoolean()
+            this.hasTransfer.text = if (hasTransferBoolean) {
+                "с пересадкой"
+            } else {
+                "без пересадок"
+            }
+
+
+
 
 
             itemView.setOnClickListener {
