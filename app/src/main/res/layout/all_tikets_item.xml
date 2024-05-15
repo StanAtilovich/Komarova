@@ -126,6 +126,17 @@
                 app:layout_constraintStart_toEndOf="@+id/arrivalDate"
                 app:layout_constraintTop_toTopOf="@+id/arrivalDate" />
 
+            <TextView
+                android:id="@+id/hasTransfer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="TextView"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@+id/allfliteTime"
+                app:layout_constraintStart_toEndOf="@+id/allfliteTime"
+                app:layout_constraintTop_toTopOf="@+id/allfliteTime" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

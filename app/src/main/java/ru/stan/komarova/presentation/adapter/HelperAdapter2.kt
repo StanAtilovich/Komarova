@@ -22,6 +22,7 @@ class HelperAdapter2(
     private val arivalDate: ArrayList<String>,
     private val departureAirport: ArrayList<String>,
     private val arivalAirport: ArrayList<String>,
+    private val hasTransfer: ArrayList<String>,
     private val context: Context
 ) :
     RecyclerView.Adapter<HelperAdapter2.MyViewClass>() {
@@ -41,8 +42,8 @@ class HelperAdapter2(
             arivalDate[position],
             departureAirport[position],
             arivalAirport[position],
-
-            )
+            hasTransfer[position]
+        )
 
     }
 
@@ -58,6 +59,7 @@ class HelperAdapter2(
         private val arrivalDate: TextView = itemView.findViewById(R.id.town)
         private val arivalAirport: TextView = itemView.findViewById(R.id.arival_airport)
         private val timeDiference1: TextView = itemView.findViewById(R.id.allfliteTime)
+        private val hasTransfer: TextView = itemView.findViewById(R.id.hasTransfer)
 
 
         @RequiresApi(Build.VERSION_CODES.O)
@@ -68,7 +70,7 @@ class HelperAdapter2(
             dateTimeString: String, // Поменяли параметр на dateTimeString
             arrivalDate: String,
             arivalAirport: String,
-            // allFliteTime: String
+            hasTransfer: String
         ) {
             if (badge1.isNotEmpty()) {
                 badgeTextView.visibility = View.VISIBLE
@@ -109,7 +111,11 @@ class HelperAdapter2(
             val hours = timeDiferance / 3600
             val minutes = (timeDiferance % 3600) / 60
             val timeDifferenceHoursMinutes = String.format("%d:%02d", hours, minutes)
-            timeDiference1.text = timeDifferenceHoursMinutes+"ч в пути"
+            timeDiference1.text = timeDifferenceHoursMinutes + "ч в пути"
+
+
+            this.hasTransfer.text = hasTransfer
+
 
             itemView.setOnClickListener {
                 Toast.makeText(context, "Item Clicked", Toast.LENGTH_LONG).show()

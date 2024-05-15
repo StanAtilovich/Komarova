@@ -32,6 +32,7 @@ class AllTicketsFragment : Fragment() {
     private val departureAirport = ArrayList<String>()
     private val arivalAirport = ArrayList<String>()
     private val arrivalDate = ArrayList<String>()
+    private val hasTransfer = ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +53,7 @@ class AllTicketsFragment : Fragment() {
             arrivalDate,
             departureAirport,
             arivalAirport,
+            hasTransfer,
             requireContext()
         )
         date()
@@ -69,7 +71,6 @@ class AllTicketsFragment : Fragment() {
                 val ticket = jsonArray.getJSONObject(i)
 
 
-
                 val providerNameList = ticket.getString("provider_name")
                 val priceObject = ticket.getJSONObject("price")
                 val priceValue = priceObject.getInt("value")
@@ -79,6 +80,10 @@ class AllTicketsFragment : Fragment() {
                 val townValue = departureObject.getString("date")
                 date.add(townValue)
 
+                //hastransfer
+                val hasTransferString = ticket.getString("has_transfer")
+                val hasTransferValue = hasTransferString.toBoolean()
+                hasTransfer.add(hasTransferValue.toString())
 
                 val arrivalObject = ticket.getJSONObject("arrival")
                 val arrivalValue = arrivalObject.getString("date")
@@ -87,17 +92,24 @@ class AllTicketsFragment : Fragment() {
                 arivalAirport.add(arAirport)
 
 
+
+
+
+
                 val departureAirport2 = departureObject.getString("airport")
                 departureAirport.add(departureAirport2)
 
                 providerName.add(providerNameList)
 
 
-                val badgeList = if (ticket.has("badge") && !ticket.getString("badge").isNullOrEmpty()) {
-                    ticket.getString("badge")
-                } else {
-                    ""
-                }
+                val badgeList =
+                    if (ticket.has("badge") && !ticket.getString("badge").isNullOrEmpty()) {
+                        ticket.getString("badge")
+                    } else {
+                        ""
+                    }
+
+
 
 
                 badge.add(badgeList)
