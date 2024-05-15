@@ -12,11 +12,10 @@ import ru.stan.komarova.R
 class HelperAdapter2(
     private val badge: ArrayList<String>,
     private val value: ArrayList<String>,
-
-    private val providerName: ArrayList<String>,
-
-
-    private val town: ArrayList<String>,
+    private val date: ArrayList<String>,
+    private val arivalDate: ArrayList<String>,
+    private val departureAirport: ArrayList<String>,
+    private val arivalAirport: ArrayList<String>,
     private val context: Context
 ) :
     RecyclerView.Adapter<HelperAdapter2.MyViewClass>() {
@@ -28,33 +27,50 @@ class HelperAdapter2(
     }
 
     override fun onBindViewHolder(holder: MyViewClass, position: Int) {
-        holder.bind(badge[position],value[position],  town[position], providerName[position])
+        holder.bind(badge[position],value[position],  date[position], arivalDate[position],departureAirport[position], arivalAirport[position])
 
     }
 
-    override fun getItemCount(): Int = providerName.size
+    override fun getItemCount(): Int = departureAirport.size
 
     inner class MyViewClass(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val badgeTextView: TextView = itemView.findViewById(R.id.badge)
+        val badgeTextView: TextView = itemView.findViewById(R.id.badge)
         private val titleTextView: TextView = itemView.findViewById(R.id.valueTextView)
         private val tvPriceFlightsTextView: TextView =
             itemView.findViewById(R.id.titleDividerNoCustom)
 
-        private val town: TextView = itemView.findViewById(R.id.town)
+        private val date: TextView = itemView.findViewById(R.id.arrivalDate)
+        private val arrivalDate: TextView = itemView.findViewById(R.id.town)
+        private val arivalAirport: TextView = itemView.findViewById(R.id.arival_airport)
 
 
-        fun bind(badge1: String,priceText: String, titleText: String,  town1: String ) {
-            badgeTextView.text = badge1
+        fun bind(
+            badge1: String,
+            priceText: String,
+            titleText: String,
+            date: String,
+            arrivalDate: String,
+            arivalAirport: String
+        ) {
+            if (badge1.isNotEmpty()) {
+                badgeTextView.visibility = View.VISIBLE
+                badgeTextView.text = badge1
+            } else {
+                badgeTextView.visibility = View.GONE
+            }
             tvPriceFlightsTextView.text = priceText + "  ₽"
             titleTextView.text = titleText
+            this.date.text = date
+            this.arrivalDate.text = arrivalDate
+            this.arivalAirport.text = arivalAirport
 
-
-            town.text = town1
 
 
             itemView.setOnClickListener {
                 Toast.makeText(context, "Item Clicked", Toast.LENGTH_LONG).show()
             }
         }
+
+
     }
 }

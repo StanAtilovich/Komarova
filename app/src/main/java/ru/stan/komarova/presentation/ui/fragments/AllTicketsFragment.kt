@@ -19,6 +19,7 @@ import ru.stan.komarova.presentation.adapter.HelperAdapter2
 import ru.stan.komarova.presentation.viewModel.MyViewModel
 import java.io.IOException
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 class AllTicketsFragment : Fragment() {
     private lateinit var binding: FragmentAllTicketsBinding
     private lateinit var viewModel: MyViewModel
@@ -27,7 +28,10 @@ class AllTicketsFragment : Fragment() {
     private val providerName = ArrayList<String>()
     private val badge = ArrayList<String>()
     private val value = ArrayList<String>()
-    private val town = ArrayList<String>()
+    private val date = ArrayList<String>()
+    private val departureAirport = ArrayList<String>()
+    private val arivalAirport = ArrayList<String>()
+    private val arrivalDate = ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +45,15 @@ class AllTicketsFragment : Fragment() {
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recyclerView.layoutManager = layoutManager
         loadUserDataFromJson("users2.json")
-        recyclerView.adapter = HelperAdapter2(badge,value,providerName, town, requireContext())
+        recyclerView.adapter = HelperAdapter2(
+            badge,
+            value,
+            date,
+            arrivalDate,
+            departureAirport,
+            arivalAirport,
+            requireContext()
+        )
         date()
         cityShow()
         return binding.root
@@ -49,32 +61,49 @@ class AllTicketsFragment : Fragment() {
 
     private fun loadUserDataFromJson(fileName: String) {
         try {
-            val jsonString = context?.assets?.open(fileName)?.bufferedReader().use { it?.readText() }
+            val jsonString =
+                context?.assets?.open(fileName)?.bufferedReader().use { it?.readText() }
             val jsonArray = JSONObject(jsonString).getJSONArray("tickets")
 
             for (i in 0 until jsonArray.length()) {
                 val ticket = jsonArray.getJSONObject(i)
 
-                val badgeList = if (ticket.has("badge")) {
-                    ticket.getString("badge")
-                } else {
-                    ""  // Если 'badge' отсутствует, оставляем его пустым
-                }
-                badge.add(badgeList)
+
+
                 val providerNameList = ticket.getString("provider_name")
                 val priceObject = ticket.getJSONObject("price")
                 val priceValue = priceObject.getInt("value")
                 value.add(priceValue.toString())
 
                 val departureObject = ticket.getJSONObject("departure")
-                val townValue = departureObject.getString("town")
-                town.add(townValue)
+                val townValue = departureObject.getString("date")
+                date.add(townValue)
+
+
+                val arrivalObject = ticket.getJSONObject("arrival")
+                val arrivalValue = arrivalObject.getString("date")
+                arrivalDate.add(arrivalValue)
+                val arAirport = arrivalObject.getString("airport")
+                arivalAirport.add(arAirport)
+
+
+                val departureAirport2 = departureObject.getString("airport")
+                departureAirport.add(departureAirport2)
+
                 providerName.add(providerNameList)
 
 
+                val badgeList = if (ticket.has("badge") && !ticket.getString("badge").isNullOrEmpty()) {
+                    ticket.getString("badge")
+                } else {
+                    ""
+                }
+
+
+                badge.add(badgeList)
+
 
             }
-
 
 
         } catch (e: JSONException) {
@@ -83,8 +112,6 @@ class AllTicketsFragment : Fragment() {
             e.printStackTrace()
         }
     }
-
-
 
 
     //получил

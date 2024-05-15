@@ -49,7 +49,7 @@
                 app:layout_constraintVertical_bias="0.8" />
 
             <TextView
-                android:id="@+id/textView15"
+                android:id="@+id/arrivalDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TextView"
@@ -71,7 +71,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/valueTextView" />
 
             <TextView
-                android:id="@+id/textView14"
+                android:id="@+id/arival_airport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
